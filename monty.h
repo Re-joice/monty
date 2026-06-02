@@ -21,5 +21,7 @@ typedef struct stack_s
 
 void push(stack_t **stack, int value);
 void pall(stack_t **stack);
+void free_stack(stack_t *stack);
+int is_number(char *str);
 
 #endif
