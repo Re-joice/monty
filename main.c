@@ -61,6 +61,10 @@ int execute_opcode(char *opcode, char *arg,
 	{
 		pint(stack, line_number);
 	}
+	else if (strcmp(opcode, "pop") == 0)
+	{
+		pop(stack, line_number);
+	}
 	else
 	{
 		fprintf(stderr,
@@ -70,7 +74,6 @@ int execute_opcode(char *opcode, char *arg,
 		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
-
 	return (0);
 }
 
@@ -85,8 +88,7 @@ int main(int argc, char *argv[])
 {
 	FILE *file;
 	char line[256];
-	char *opcode;
-	char *arg;
+	char *opcode, *arg;
 	stack_t *stack = NULL;
 	unsigned int line_number = 0;
 
