@@ -14,11 +14,15 @@ int is_number(char *str)
 		return (0);
 
 	if (str[0] == '-')
+	{
+		if (str[1] == '\0')
+			return (0);
 		i++;
+	}
 
 	while (str[i])
 	{
-		if (!isdigit(str[i]))
+		if (!isdigit((unsigned char)str[i]))
 			return (0);
 		i++;
 	}
@@ -27,16 +31,16 @@ int is_number(char *str)
 }
 
 /**
- * execute_opcode - executes opcode
+ * execute_basic - executes basic opcodes
  * @opcode: opcode
  * @arg: argument
  * @line_number: current line number
  * @stack: stack
- * @file: opened file
+ * @file: file pointer
  *
- * Return: 0
+ * Return: 1 if opcode found, 0 otherwise
  */
-int execute_opcode(char *opcode, char *arg,
+int execute_basic(char *opcode, char *arg,
 	unsigned int line_number,
 	stack_t **stack, FILE *file)
 {
@@ -52,36 +56,74 @@ int execute_opcode(char *opcode, char *arg,
 			exit(EXIT_FAILURE);
 		}
 		push(stack, atoi(arg));
+		return (1);
 	}
-	else if (strcmp(opcode, "pall") == 0)
-		pall(stack);
-	else if (strcmp(opcode, "pint") == 0)
-		pint(stack, line_number);
-	else if (strcmp(opcode, "pop") == 0)
-		pop(stack, line_number);
-	else if (strcmp(opcode, "swap") == 0)
-		swap_stack(stack, line_number);
-	else if (strcmp(opcode, "add") == 0)
-		add_stack(stack, line_number);
-	else if (strcmp(opcode, "nop") == 0)
-		nop(stack, line_number);
-	else if (strcmp(opcode, "sub") == 0)
-		sub_stack(stack, line_number);
-	else if (strcmp(opcode, "div") == 0)
-		div_stack(stack, line_number);
-	else if (strcmp(opcode, "mul") == 0)
-		mul_stack(stack, line_number);
-	else
-	{
-		fprintf(stderr,
-			"L%u: unknown instruction %s\n",
-			line_number, opcode);
-		fclose(file);
-		free_stack(*stack);
-		exit(EXIT_FAILURE);
-	}
+	if (strcmp(opcode, "pall") == 0)
+		return (pall(stack), 1);
+	if (strcmp(opcode, "pint") == 0)
+		return (pint(stack, line_number), 1);
+	if (strcmp(opcode, "pop") == 0)
+		return (pop(stack, line_number), 1);
 
 	return (0);
+}
+
+/**
+ * execute_advanced - executes advanced opcodes
+ * @opcode: opcode
+ * @line_number: current line number
+ * @stack: stack
+ *
+ * Return: 1 if opcode found, 0 otherwise
+ */
+int execute_advanced(char *opcode,
+	unsigned int line_number,
+	stack_t **stack)
+{
+	if (strcmp(opcode, "swap") == 0)
+		return (swap_stack(stack, line_number), 1);
+	if (strcmp(opcode, "add") == 0)
+		return (add_stack(stack, line_number), 1);
+	if (strcmp(opcode, "nop") == 0)
+		return (nop(stack, line_number), 1);
+	if (strcmp(opcode, "sub") == 0)
+		return (sub_stack(stack, line_number), 1);
+	if (strcmp(opcode, "div") == 0)
+		return (div_stack(stack, line_number), 1);
+	if (strcmp(opcode, "mul") == 0)
+		return (mul_stack(stack, line_number), 1);
+
+	return (0);
+}
+
+/**
+ * execute_opcode - executes opcode
+ * @opcode: opcode
+ * @arg: argument
+ * @line_number: current line number
+ * @stack: stack
+ * @file: file pointer
+ *
+ * Return: 0
+ */
+int execute_opcode(char *opcode, char *arg,
+	unsigned int line_number,
+	stack_t **stack, FILE *file)
+{
+	if (execute_basic(opcode, arg,
+		line_number, stack, file))
+		return (0);
+
+	if (execute_advanced(opcode,
+		line_number, stack))
+		return (0);
+
+	fprintf(stderr,
+		"L%u: unknown instruction %s\n",
+		line_number, opcode);
+	fclose(file);
+	free_stack(*stack);
+	exit(EXIT_FAILURE);
 }
 
 /**
@@ -95,8 +137,7 @@ int main(int argc, char *argv[])
 {
 	FILE *file;
 	char line[256];
-	char *opcode;
-	char *arg;
+	char *opcode, *arg;
 	stack_t *stack = NULL;
 	unsigned int line_number = 0;
 
@@ -118,14 +159,12 @@ int main(int argc, char *argv[])
 	while (fgets(line, sizeof(line), file))
 	{
 		line_number++;
-
 		opcode = strtok(line, " \t\n");
 
-		if (opcode == NULL)
+		if (opcode == NULL || opcode[0] == '#')
 			continue;
 
 		arg = strtok(NULL, " \t\n");
-
 		execute_opcode(opcode, arg,
 			line_number, &stack, file);
 	}

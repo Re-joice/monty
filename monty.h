@@ -33,4 +33,16 @@ void mul_stack(stack_t **stack, unsigned int line_number);
 void free_stack(stack_t *stack);
 int is_number(char *str);
 
+int execute_basic(char *opcode, char *arg,
+	unsigned int line_number,
+	stack_t **stack, FILE *file);
+
+int execute_advanced(char *opcode,
+	unsigned int line_number,
+	stack_t **stack);
+
+int execute_opcode(char *opcode, char *arg,
+	unsigned int line_number,
+	stack_t **stack, FILE *file);
+
 #endif
