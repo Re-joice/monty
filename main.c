@@ -51,7 +51,6 @@ int execute_opcode(char *opcode, char *arg,
 			free_stack(*stack);
 			exit(EXIT_FAILURE);
 		}
-
 		push(stack, atoi(arg));
 	}
 	else if (strcmp(opcode, "pall") == 0)
@@ -73,6 +72,10 @@ int execute_opcode(char *opcode, char *arg,
 	else if (strcmp(opcode, "add") == 0)
 	{
 		add_stack(stack, line_number);
+	}
+	else if (strcmp(opcode, "nop") == 0)
+	{
+		nop(stack, line_number);
 	}
 	else
 	{
