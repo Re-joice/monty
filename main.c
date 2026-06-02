@@ -51,6 +51,7 @@ int execute_opcode(char *opcode, char *arg,
 			free_stack(*stack);
 			exit(EXIT_FAILURE);
 		}
+
 		push(stack, atoi(arg));
 	}
 	else if (strcmp(opcode, "pall") == 0)
@@ -68,6 +69,10 @@ int execute_opcode(char *opcode, char *arg,
 	else if (strcmp(opcode, "swap") == 0)
 	{
 		swap_stack(stack, line_number);
+	}
+	else if (strcmp(opcode, "add") == 0)
+	{
+		add_stack(stack, line_number);
 	}
 	else
 	{
@@ -93,7 +98,8 @@ int main(int argc, char *argv[])
 {
 	FILE *file;
 	char line[256];
-	char *opcode, *arg;
+	char *opcode;
+	char *arg;
 	stack_t *stack = NULL;
 	unsigned int line_number = 0;
 
