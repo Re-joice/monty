@@ -30,9 +30,9 @@ int is_number(char *str)
  * execute_opcode - executes opcode
  * @opcode: opcode
  * @arg: argument
- * @line_number: line number
+ * @line_number: current line number
  * @stack: stack
- * @file: file pointer
+ * @file: opened file
  *
  * Return: 0
  */
@@ -69,6 +69,8 @@ int execute_opcode(char *opcode, char *arg,
 		sub_stack(stack, line_number);
 	else if (strcmp(opcode, "div") == 0)
 		div_stack(stack, line_number);
+	else if (strcmp(opcode, "mul") == 0)
+		mul_stack(stack, line_number);
 	else
 	{
 		fprintf(stderr,

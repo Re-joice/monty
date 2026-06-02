@@ -28,6 +28,7 @@ void add_stack(stack_t **stack, unsigned int line_number);
 void nop(stack_t **stack, unsigned int line_number);
 void sub_stack(stack_t **stack, unsigned int line_number);
 void div_stack(stack_t **stack, unsigned int line_number);
+void mul_stack(stack_t **stack, unsigned int line_number);
 
 void free_stack(stack_t *stack);
 int is_number(char *str);
