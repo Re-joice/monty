@@ -54,7 +54,13 @@ int execute_opcode(char *opcode, char *arg,
 		push(stack, atoi(arg));
 	}
 	else if (strcmp(opcode, "pall") == 0)
+	{
 		pall(stack);
+	}
+	else if (strcmp(opcode, "pint") == 0)
+	{
+		pint(stack, line_number);
+	}
 	else
 	{
 		fprintf(stderr,
@@ -64,6 +70,7 @@ int execute_opcode(char *opcode, char *arg,
 		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
+
 	return (0);
 }
 
@@ -78,7 +85,8 @@ int main(int argc, char *argv[])
 {
 	FILE *file;
 	char line[256];
-	char *opcode, *arg;
+	char *opcode;
+	char *arg;
 	stack_t *stack = NULL;
 	unsigned int line_number = 0;
 
@@ -91,7 +99,9 @@ int main(int argc, char *argv[])
 	file = fopen(argv[1], "r");
 	if (file == NULL)
 	{
-		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
+		fprintf(stderr,
+			"Error: Can't open file %s\n",
+			argv[1]);
 		exit(EXIT_FAILURE);
 	}
 
@@ -104,11 +114,13 @@ int main(int argc, char *argv[])
 			continue;
 
 		arg = strtok(NULL, " \t\n");
+
 		execute_opcode(opcode, arg,
 			line_number, &stack, file);
 	}
 
 	fclose(file);
 	free_stack(stack);
+
 	return (0);
 }
