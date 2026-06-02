@@ -54,29 +54,21 @@ int execute_opcode(char *opcode, char *arg,
 		push(stack, atoi(arg));
 	}
 	else if (strcmp(opcode, "pall") == 0)
-	{
 		pall(stack);
-	}
 	else if (strcmp(opcode, "pint") == 0)
-	{
 		pint(stack, line_number);
-	}
 	else if (strcmp(opcode, "pop") == 0)
-	{
 		pop(stack, line_number);
-	}
 	else if (strcmp(opcode, "swap") == 0)
-	{
 		swap_stack(stack, line_number);
-	}
 	else if (strcmp(opcode, "add") == 0)
-	{
 		add_stack(stack, line_number);
-	}
 	else if (strcmp(opcode, "nop") == 0)
-	{
 		nop(stack, line_number);
-	}
+	else if (strcmp(opcode, "sub") == 0)
+		sub_stack(stack, line_number);
+	else if (strcmp(opcode, "div") == 0)
+		div_stack(stack, line_number);
 	else
 	{
 		fprintf(stderr,
