@@ -65,6 +65,10 @@ int execute_opcode(char *opcode, char *arg,
 	{
 		pop(stack, line_number);
 	}
+	else if (strcmp(opcode, "swap") == 0)
+	{
+		swap_stack(stack, line_number);
+	}
 	else
 	{
 		fprintf(stderr,
@@ -74,6 +78,7 @@ int execute_opcode(char *opcode, char *arg,
 		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
+
 	return (0);
 }
 
@@ -110,6 +115,7 @@ int main(int argc, char *argv[])
 	while (fgets(line, sizeof(line), file))
 	{
 		line_number++;
+
 		opcode = strtok(line, " \t\n");
 
 		if (opcode == NULL)
