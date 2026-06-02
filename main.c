@@ -27,6 +27,47 @@ int is_number(char *str)
 }
 
 /**
+ * execute_opcode - executes opcode
+ * @opcode: opcode
+ * @arg: argument
+ * @line_number: line number
+ * @stack: stack
+ * @file: file pointer
+ *
+ * Return: 0
+ */
+int execute_opcode(char *opcode, char *arg,
+	unsigned int line_number,
+	stack_t **stack, FILE *file)
+{
+	if (strcmp(opcode, "push") == 0)
+	{
+		if (!is_number(arg))
+		{
+			fprintf(stderr,
+				"L%u: usage: push integer\n",
+				line_number);
+			fclose(file);
+			free_stack(*stack);
+			exit(EXIT_FAILURE);
+		}
+		push(stack, atoi(arg));
+	}
+	else if (strcmp(opcode, "pall") == 0)
+		pall(stack);
+	else
+	{
+		fprintf(stderr,
+			"L%u: unknown instruction %s\n",
+			line_number, opcode);
+		fclose(file);
+		free_stack(*stack);
+		exit(EXIT_FAILURE);
+	}
+	return (0);
+}
+
+/**
  * main - Monty interpreter
  * @argc: argument count
  * @argv: argument vector
@@ -62,39 +103,12 @@ int main(int argc, char *argv[])
 		if (opcode == NULL)
 			continue;
 
-		if (strcmp(opcode, "push") == 0)
-		{
-			arg = strtok(NULL, " \t\n");
-
-			if (!is_number(arg))
-			{
-				fprintf(stderr,
-					"L%u: usage: push integer\n",
-					line_number);
-				fclose(file);
-				free_stack(stack);
-				exit(EXIT_FAILURE);
-			}
-
-			push(&stack, atoi(arg));
-		}
-		else if (strcmp(opcode, "pall") == 0)
-		{
-			pall(&stack);
-		}
-		else
-		{
-			fprintf(stderr,
-				"L%u: unknown instruction %s\n",
-				line_number, opcode);
-			fclose(file);
-			free_stack(stack);
-			exit(EXIT_FAILURE);
-		}
+		arg = strtok(NULL, " \t\n");
+		execute_opcode(opcode, arg,
+			line_number, &stack, file);
 	}
 
 	fclose(file);
 	free_stack(stack);
-
 	return (0);
 }
