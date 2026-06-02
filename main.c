@@ -92,6 +92,8 @@ int execute_advanced(char *opcode,
 		return (div_stack(stack, line_number), 1);
 	if (strcmp(opcode, "mul") == 0)
 		return (mul_stack(stack, line_number), 1);
+	if (strcmp(opcode, "mod") == 0)
+		return (mod_stack(stack, line_number), 1);
 
 	return (0);
 }
