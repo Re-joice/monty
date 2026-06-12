@@ -1,0 +1,29 @@
+#include "monty.h"
+
+extern int mode;
+
+/**
+ * queue_mode - switches to queue mode
+ * @stack: unused
+ * @line_number: unused
+ */
+void queue_mode(stack_t **stack, unsigned int line_number)
+{
+	(void)stack;
+	(void)line_number;
+
+	mode = 1;
+}
+
+/**
+ * stack_mode - switches to stack mode
+ * @stack: unused
+ * @line_number: unused
+ */
+void stack_mode(stack_t **stack, unsigned int line_number)
+{
+	(void)stack;
+	(void)line_number;
+
+	mode = 0;
+}

@@ -102,6 +102,10 @@ int execute_advanced(char *opcode,
 		return (rotl_stack(stack, line_number), 1);
 	if (strcmp(opcode, "rotr") == 0)
 		return (rotr_stack(stack, line_number), 1);
+	if (strcmp(opcode, "queue") == 0)
+		return (queue_mode(stack, line_number), 1);
+	if (strcmp(opcode, "stack") == 0)
+		return (stack_mode(stack, line_number), 1);
 
 	return (0);
 }

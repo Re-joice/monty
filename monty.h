@@ -37,6 +37,9 @@ void pstr_stack(stack_t **stack, unsigned int line_number);
 void rotl_stack(stack_t **stack, unsigned int line_number);
 void rotr_stack(stack_t **stack, unsigned int line_number);
 
+void queue_mode(stack_t **stack, unsigned int line_number);
+void stack_mode(stack_t **stack, unsigned int line_number);
+
 void free_stack(stack_t *stack);
 int is_number(char *str);
 
