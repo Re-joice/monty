@@ -23,6 +23,7 @@ void push(stack_t **stack, int value);
 void pall(stack_t **stack);
 void pint(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
+
 void swap_stack(stack_t **stack, unsigned int line_number);
 void add_stack(stack_t **stack, unsigned int line_number);
 void nop(stack_t **stack, unsigned int line_number);
@@ -31,6 +32,7 @@ void div_stack(stack_t **stack, unsigned int line_number);
 void mul_stack(stack_t **stack, unsigned int line_number);
 void mod_stack(stack_t **stack, unsigned int line_number);
 void pchar_stack(stack_t **stack, unsigned int line_number);
+void pstr_stack(stack_t **stack, unsigned int line_number);
 
 void free_stack(stack_t *stack);
 int is_number(char *str);

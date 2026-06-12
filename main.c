@@ -96,6 +96,8 @@ int execute_advanced(char *opcode,
 		return (mod_stack(stack, line_number), 1);
 	if (strcmp(opcode, "pchar") == 0)
 		return (pchar_stack(stack, line_number), 1);
+	if (strcmp(opcode, "pstr") == 0)
+		return (pstr_stack(stack, line_number), 1);
 
 	return (0);
 }
