@@ -100,6 +100,8 @@ int execute_advanced(char *opcode,
 		return (pstr_stack(stack, line_number), 1);
 	if (strcmp(opcode, "rotl") == 0)
 		return (rotl_stack(stack, line_number), 1);
+	if (strcmp(opcode, "rotr") == 0)
+		return (rotr_stack(stack, line_number), 1);
 
 	return (0);
 }
